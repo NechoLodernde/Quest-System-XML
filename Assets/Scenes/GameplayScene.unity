@@ -170,6 +170,16 @@ MonoBehaviour:
   health: 0
   experience: 0
   gold: 0
+  quest:
+    isActive: 0
+    title: 
+    description: 
+    experienceReward: 0
+    goldReward: 0
+    goal:
+      goalType: 0
+      requiredAmount: 0
+      currentAmount: 0
 --- !u!1 &175804682
 GameObject:
   m_ObjectHideFlags: 0
@@ -2323,6 +2333,10 @@ MonoBehaviour:
     description: Venture into the wild and kill 3 enemies to get the reward
     experienceReward: 30
     goldReward: 730
+    goal:
+      goalType: 0
+      requiredAmount: 3
+      currentAmount: 0
   player: {fileID: 72495340}
   questWindow: {fileID: 941487955}
   titleText: {fileID: 1093764629}
@@ -2427,7 +2441,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1660055865}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1560827925}
+        m_TargetAssemblyTypeName: QuestGiver, Assembly-CSharp
+        m_MethodName: AcceptQuest
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1660055865
 MonoBehaviour:
   m_ObjectHideFlags: 0
