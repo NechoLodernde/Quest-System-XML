@@ -10,10 +10,16 @@ using UnityEditor;
 public class MainMenuUIHandler : MonoBehaviour
 {
     private readonly string gameplaySceneName = "GameplayScene";
+    private readonly string playerCreationSceneName = "PlayerCreationScene";
 
     public void GoToGameplay()
     {
         SceneManager.LoadScene(gameplaySceneName);
+    }
+
+    public void GoToPlayerCreation()
+    {
+        SceneManager.LoadScene(playerCreationSceneName);
     }
 
     public void ExitGame()
