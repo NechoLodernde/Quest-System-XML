@@ -97,9 +97,50 @@ public class PlayerXMLManager : MonoBehaviour
                             newEntry.playerName = playerItems.InnerText;
                         }
                     }
+                    else if (playerItems.Name.Equals("playerRole"))
+                    {
+                        if (prevName.Equals(prevPlayerName)){
+                            newEntry.playerRole = GetRole(playerItems.InnerText);
+                        }
+                    }
+                    else if (playerItems.Name.Equals("playerGender"))
+                    {
+                        if (prevName.Equals(prevPlayerName))
+                        {
+                            newEntry.playerGender = GetGender(playerItems.InnerText);
+                        }
+                    }
+                    else if (playerItems.Name.Equals("playerLevel"))
+                    {
+                        if (prevName.Equals(prevPlayerName))
+                        {
+                            int.TryParse(playerItems.InnerText, out int level);
+                            int pLevel = level;
+                            newEntry.playerLevel = pLevel;
+                        }
+                    }
+                    else if (playerItems.Name.Equals("playerExp"))
+                    {
+                        if (prevName.Equals(prevPlayerName))
+                        {
+                            int.TryParse(playerItems.InnerText, out int exp);
+                            int pExp = exp;
+                            newEntry.playerExp = pExp;
+                        }
+                    }
                 }
+                playerDB.list.Add(newEntry);
             }
         }
+        else
+        {
+            InitializeFile();
+        }
+    }
+
+    public void ModifyPlayerData(string pName, string pRole, string pGender, int pLevel, int pExp)
+    {
+
     }
 
     public void InitializeFile()
@@ -174,8 +215,11 @@ public class PlayerXMLManager : MonoBehaviour
         Genders baseGender = Genders.Male;
         foreach (Genders gender in System.Enum.GetValues(typeof(Genders)))
         {
-            baseGender = gender;
-            return baseGender;
+            if (input.Equals(gender.ToString()))
+            {
+                baseGender = gender;
+                return baseGender;
+            }
         }
 
         return baseGender;
