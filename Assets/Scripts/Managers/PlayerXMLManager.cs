@@ -89,44 +89,46 @@ public class PlayerXMLManager : MonoBehaviour
                 string prevName = "";
                 foreach (XmlNode playerItems in playerContent)
                 {
-                    if (playerItems.Name.Equals("playerName"))
+                    switch (playerItems.Name)
                     {
-                        prevName = playerItems.InnerText;
-                        if (playerItems.InnerText.Equals(prevPlayerName))
-                        {
-                            newEntry.playerName = playerItems.InnerText;
-                        }
-                    }
-                    else if (playerItems.Name.Equals("playerRole"))
-                    {
-                        if (prevName.Equals(prevPlayerName)){
-                            newEntry.playerRole = GetRole(playerItems.InnerText);
-                        }
-                    }
-                    else if (playerItems.Name.Equals("playerGender"))
-                    {
-                        if (prevName.Equals(prevPlayerName))
-                        {
-                            newEntry.playerGender = GetGender(playerItems.InnerText);
-                        }
-                    }
-                    else if (playerItems.Name.Equals("playerLevel"))
-                    {
-                        if (prevName.Equals(prevPlayerName))
-                        {
-                            int.TryParse(playerItems.InnerText, out int level);
-                            int pLevel = level;
-                            newEntry.playerLevel = pLevel;
-                        }
-                    }
-                    else if (playerItems.Name.Equals("playerExp"))
-                    {
-                        if (prevName.Equals(prevPlayerName))
-                        {
-                            int.TryParse(playerItems.InnerText, out int exp);
-                            int pExp = exp;
-                            newEntry.playerExp = pExp;
-                        }
+                        case "playerName":
+                            prevName = playerItems.InnerText;
+                            if (CheckNames(playerItems.InnerText, prevPlayerName))
+                            {
+                                newEntry.playerName = playerItems.InnerText;
+                            }
+                            break;
+                        case "playerRole":
+                            if (CheckNames(prevName, prevPlayerName))
+                            {
+                                newEntry.playerRole = GetRole(playerItems.InnerText);
+                            }
+                            break;
+                        case "playerGender":
+                            if (CheckNames(prevName, prevPlayerName))
+                            {
+                                newEntry.playerGender = GetGender(playerItems.InnerText);
+                            }
+                            break;
+                        case "playerLevel":
+                            if (CheckNames(prevName, prevPlayerName))
+                            {
+                                int.TryParse(playerItems.InnerText, out int level);
+                                int pLevel = level;
+                                newEntry.playerLevel = pLevel;
+                            }
+                            break;
+                        case "playerExp":
+                            if (CheckNames(prevName, prevPlayerName))
+                            {
+                                int.TryParse(playerItems.InnerText, out int exp);
+                                int pExp = exp;
+                                newEntry.playerExp = pExp;
+                            }
+                            break;
+                        default:
+                            Debug.Log("End of the line");
+                            break;
                     }
                 }
                 playerDB.list.Add(newEntry);
@@ -138,9 +140,54 @@ public class PlayerXMLManager : MonoBehaviour
         }
     }
 
-    public void ModifyPlayerData(string pName, string pRole, string pGender, int pLevel, int pExp)
+    public void ModifyPlayerData(string pName, int pLevel, int pExp)
     {
+        XmlDocument xmlDoc = new();
+        if (CheckFileLocation())
+        {
+            xmlDoc.Load(filepath);
 
+            XmlNodeList playerList = xmlDoc.GetElementsByTagName("PlayerEntry");
+
+            foreach (XmlNode playerInfo in playerList)
+            {
+                XmlNodeList playerContent = playerInfo.ChildNodes;
+                string prevName = "";
+
+                foreach (XmlNode playerItems in playerContent)
+                {
+                    switch (playerItems.Name)
+                    {
+                        case "playerName":
+                            prevName = playerItems.InnerText;
+                            if (CheckNames(playerItems.InnerText, prevPlayerName))
+                            {
+                                prevName = playerItems.InnerText;
+                            }
+                            break;
+                        case "playerLevel":
+                            if (CheckNames(pName, prevName))
+                            {
+                                playerItems.InnerText = pLevel.ToString();
+                            }
+                            break;
+                        case "playerExp":
+                            if (CheckNames(pName, prevName))
+                            {
+                                playerItems.InnerText = pExp.ToString();
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            xmlDoc.Save(filepath);
+        }
+        else
+        {
+            InitializeFile();
+        }
     }
 
     public void InitializeFile()
@@ -228,6 +275,23 @@ public class PlayerXMLManager : MonoBehaviour
     public void SetPrevPlayerName(string setName)
     {
         prevPlayerName = setName;
+    }
+
+    public void ResetPrevPlayerName()
+    {
+        prevPlayerName = "";
+    }
+
+    private bool CheckNames(string playerName, string prevPlayerName)
+    {
+        bool matches = false;
+
+        if (prevPlayerName.Equals(playerName))
+        {
+            matches = true;
+            return matches;
+        }
+        return matches;
     }
 }
 

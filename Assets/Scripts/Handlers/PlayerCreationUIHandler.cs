@@ -1,18 +1,75 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class PlayerCreationUIHandler : MonoBehaviour
 {
+    public TMP_InputField nameInputField;
+    public ToggleGroup toggleGroup;
+    public TMP_Dropdown roleInputField;
+
+    private readonly string mainMenuSceneName = "MainMenuScene";
+    private readonly string explorationSceneName = "ExplorationScene";
+
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        var roleDropDown = roleInputField.transform.GetComponent<TMP_Dropdown>();
+        List<string> roleOptions;
+        roleOptions = PlayerXMLManager.PlayerXMLInstance.GetRolesData();
+        roleDropDown.AddOptions(roleOptions);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GoToMainMenu()
     {
-        
+        SceneManager.LoadScene(mainMenuSceneName);
+    }
+
+    public void SubmitData()
+    {
+        var inputDropDown = roleInputField.transform.GetComponent<TMP_Dropdown>();
+        int index = inputDropDown.value;
+        List<TMP_Dropdown.OptionData> roleOptions = inputDropDown.options;
+        string playerName = nameInputField.text.ToString();
+        string playerRole = roleOptions[index].text.ToString();
+        string playerGender = "";
+        foreach(Toggle toggle in toggleGroup.ActiveToggles())
+        {
+            switch (toggle.ToString())
+            {
+                case "ToggleMale":
+                    playerGender = "Male";
+                    break;
+                case "ToggleFemale":
+                    playerGender = "Female";
+                    break;
+                default:
+                    Debug.Log("No active toggle");
+                    break;
+            }
+            if (!playerGender.Equals(""))
+            {
+                break;
+            }
+        }
+        //Debug.Log(playerName);
+        //Debug.Log(playerRole);
+
+        // Function to get active toggle from a toggle group
+        //foreach(Toggle toggle in toggleGroup.ActiveToggles())
+        //{
+        //    Debug.Log(toggle);
+        //}
+        PlayerXMLManager.PlayerXMLInstance.playerDB.list.Clear();
+        PlayerEntry newEntry = new();
+        newEntry.playerName = playerName;
+        newEntry.playerGender = PlayerXMLManager.PlayerXMLInstance.GetGender(playerGender);
+        newEntry.playerRole = PlayerXMLManager.PlayerXMLInstance.GetRole(playerRole);
+        newEntry.playerLevel = 1;
+        newEntry.playerExp = 0;
+        PlayerXMLManager.PlayerXMLInstance.playerDB.list.Add(newEntry);
     }
 }

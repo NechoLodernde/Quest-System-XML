@@ -401,6 +401,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7b75f1ffb3248d4b86eef699c20597b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nameInputField: {fileID: 2098129797}
+  toggleGroup: {fileID: 985453107}
+  roleInputField: {fileID: 713213977}
 --- !u!1 &192652525
 GameObject:
   m_ObjectHideFlags: 0
@@ -1931,7 +1934,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 764739670}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 164295520}
+        m_TargetAssemblyTypeName: PlayerCreationUIHandler, Assembly-CSharp
+        m_MethodName: GoToMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &764739670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2946,7 +2961,7 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1695022916
 GameObject:
   m_ObjectHideFlags: 0
@@ -3564,7 +3579,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1905876979}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 164295520}
+        m_TargetAssemblyTypeName: PlayerCreationUIHandler, Assembly-CSharp
+        m_MethodName: SubmitData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1905876979
 MonoBehaviour:
   m_ObjectHideFlags: 0
