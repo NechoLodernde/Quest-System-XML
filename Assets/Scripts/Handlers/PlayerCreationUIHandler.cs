@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -28,6 +29,11 @@ public class PlayerCreationUIHandler : MonoBehaviour
         SceneManager.LoadScene(mainMenuSceneName);
     }
 
+    public void GoToExploration()
+    {
+        SceneManager.LoadScene(explorationSceneName);
+    }
+
     public void SubmitData()
     {
         var inputDropDown = roleInputField.transform.GetComponent<TMP_Dropdown>();
@@ -36,9 +42,34 @@ public class PlayerCreationUIHandler : MonoBehaviour
         string playerName = nameInputField.text.ToString();
         string playerRole = roleOptions[index].text.ToString();
         string playerGender = "";
-        foreach(Toggle toggle in toggleGroup.ActiveToggles())
+        // 1st method to get active toggle from toggle group
+        //foreach (Toggle toggle in toggleGroup.ActiveToggles())
+        //{
+        //    if (playerGender.Length > 0)
+        //    {
+        //        break;
+        //    }
+        //    Debug.Log(toggle);
+        //    switch (toggle.ToString())
+        //    {
+        //        case "ToggleMale":
+        //            playerGender = "Male";
+        //            break;
+        //        case "ToggleFemale":
+        //            playerGender = "Female";
+        //            break;
+        //        default:
+        //            Debug.Log("No active toggle");
+        //            break;
+        //    }
+        //}
+
+        // 2nd method
+        Toggle selectedToggle = toggleGroup.ActiveToggles().FirstOrDefault();
+        if (selectedToggle != null)
         {
-            switch (toggle.ToString())
+            //Debug.Log(selectedToggle);
+            switch (selectedToggle.name)
             {
                 case "ToggleMale":
                     playerGender = "Male";
@@ -47,12 +78,8 @@ public class PlayerCreationUIHandler : MonoBehaviour
                     playerGender = "Female";
                     break;
                 default:
-                    Debug.Log("No active toggle");
+                    Debug.Log("No selected toggle");
                     break;
-            }
-            if (!playerGender.Equals(""))
-            {
-                break;
             }
         }
         //Debug.Log(playerName);
@@ -71,5 +98,7 @@ public class PlayerCreationUIHandler : MonoBehaviour
         newEntry.playerLevel = 1;
         newEntry.playerExp = 0;
         PlayerXMLManager.PlayerXMLInstance.playerDB.list.Add(newEntry);
+        PlayerXMLManager.PlayerXMLInstance.SavePlayerData();
+        GoToExploration();
     }
 }
