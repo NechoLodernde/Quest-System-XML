@@ -19,6 +19,12 @@ public class ThirdPersonMovement : MonoBehaviour
         controls = new PlayerActions();
         //controls.PlayerMain.Move.performed += _ => WeMove();
         //controls.PlayerMain.Look.performed += _ => WeLook();
+        //controls.PlayerMain.Move.performed += context => Move(context.ReadValue<Vector2>());
+    }
+
+    private void Move(Vector2 direction)
+    {
+        Debug.Log("The player wants to move: " + direction);
     }
 
     void WeMove()
@@ -57,8 +63,13 @@ public class ThirdPersonMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
+        //Keyboard kb = InputSystem.GetDevice<Keyboard>();
+        //if (kb.spaceKey.wasPressedThisFrame)
+        //{
+        //    Debug.Log("Someone pressed space?");
+        //}
         //float horizontal = Input.GetAxisRaw("Horizontal");
         //float vertical = Input.GetAxisRaw("Vertical");
         WeMove();
