@@ -196,7 +196,7 @@ public class PlayerXMLManager : MonoBehaviour
         settings.Encoding = System.Text.Encoding.GetEncoding("UTF-8");
         settings.Indent = true;
         settings.IndentChars = ("     ");
-        settings.OmitXmlDeclaration = false;
+        settings.OmitXmlDeclaration = true;
 
         XmlWriter writer = XmlWriter.Create(filepath, settings);
         writer.WriteStartDocument();
@@ -216,6 +216,11 @@ public class PlayerXMLManager : MonoBehaviour
             elmRoot.RemoveAll();
             xmlDoc.Save(filepath);
         }
+    }
+
+    public void ClearList()
+    {
+        playerDB.list.Clear();
     }
 
     private bool CheckFileLocation()

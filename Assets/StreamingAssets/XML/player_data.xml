@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PlayerDatabase>
+  <PlayerEntry>
+    <playerName>Nechomer</playerName>
+    <playerRole>Healer</playerRole>
+    <playerGender>Male</playerGender>
+    <playerLevel>1</playerLevel>
+    <playerExp>0</playerExp>
+  </PlayerEntry>
+</PlayerDatabase>

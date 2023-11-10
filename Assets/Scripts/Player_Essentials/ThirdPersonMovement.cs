@@ -8,11 +8,15 @@ public class ThirdPersonMovement : MonoBehaviour
     public CharacterController controller;
     public Transform cam;
     public PlayerActions controls;
+    public GameObject canvasObject;
 
     public float speed = 6f;
+    public float gravityValue = -9.81f;
 
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
+
+    private Vector3 _playerVelocity;
 
     private void Awake()
     {
@@ -30,12 +34,12 @@ public class ThirdPersonMovement : MonoBehaviour
     void WeMove()
     {
         //Debug.Log("We move the player");
-
+        _playerVelocity.y = 0f;
         Vector2 movementInput = controls.PlayerMain.Move.ReadValue<Vector2>();
         float horizontal = movementInput.x;
         float vertical = movementInput.y;
         Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
-
+        
         if (direction.magnitude >= 0.1f)
         {
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
@@ -45,6 +49,9 @@ public class ThirdPersonMovement : MonoBehaviour
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(speed * Time.deltaTime * moveDir.normalized);
         }
+        _playerVelocity.y += gravityValue * Time.deltaTime;
+        controller.Move(speed * Time.deltaTime * _playerVelocity.normalized);
+        
     }
 
     void WeLook()
@@ -73,5 +80,12 @@ public class ThirdPersonMovement : MonoBehaviour
         //float horizontal = Input.GetAxisRaw("Horizontal");
         //float vertical = Input.GetAxisRaw("Vertical");
         WeMove();
+        if (controls.PlayerMain.Pause.triggered)
+        {
+            this.gameObject.SetActive(false);
+            canvasObject.SetActive(true);
+            //Debug.Log("Is triggered? " + controls.PlayerMain.Pause.triggered);
+            //Debug.Log("To string: " + controls.PlayerMain.Pause.controls.ToString());
+        }
     }
 }
