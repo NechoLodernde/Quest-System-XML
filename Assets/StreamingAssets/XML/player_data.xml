@@ -7,4 +7,18 @@
     <playerLevel>1</playerLevel>
     <playerExp>0</playerExp>
   </PlayerEntry>
+  <PlayerEntry>
+    <playerName>Nechomer</playerName>
+    <playerRole>Hero</playerRole>
+    <playerGender>Male</playerGender>
+    <playerLevel>1</playerLevel>
+    <playerExp>0</playerExp>
+  </PlayerEntry>
+  <PlayerEntry>
+    <playerName>Nechometry</playerName>
+    <playerRole>Wizard</playerRole>
+    <playerGender>Male</playerGender>
+    <playerLevel>1</playerLevel>
+    <playerExp>0</playerExp>
+  </PlayerEntry>
 </PlayerDatabase>
