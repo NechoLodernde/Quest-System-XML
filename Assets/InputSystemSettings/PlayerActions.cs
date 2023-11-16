@@ -53,6 +53,15 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""617d39c2-f46c-44a4-9325-18f09adc4b08"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -187,6 +196,17 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""14f27558-5616-4d31-9f62-9d5a4e812e28"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard and Mouse"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -226,6 +246,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         m_PlayerMain_Move = m_PlayerMain.FindAction("Move", throwIfNotFound: true);
         m_PlayerMain_Look = m_PlayerMain.FindAction("Look", throwIfNotFound: true);
         m_PlayerMain_Pause = m_PlayerMain.FindAction("Pause", throwIfNotFound: true);
+        m_PlayerMain_Jump = m_PlayerMain.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -290,6 +311,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerMain_Move;
     private readonly InputAction m_PlayerMain_Look;
     private readonly InputAction m_PlayerMain_Pause;
+    private readonly InputAction m_PlayerMain_Jump;
     public struct PlayerMainActions
     {
         private @PlayerActions m_Wrapper;
@@ -297,6 +319,7 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_PlayerMain_Move;
         public InputAction @Look => m_Wrapper.m_PlayerMain_Look;
         public InputAction @Pause => m_Wrapper.m_PlayerMain_Pause;
+        public InputAction @Jump => m_Wrapper.m_PlayerMain_Jump;
         public InputActionMap Get() { return m_Wrapper.m_PlayerMain; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -315,6 +338,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
         }
 
         private void UnregisterCallbacks(IPlayerMainActions instance)
@@ -328,6 +354,9 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
         }
 
         public void RemoveCallbacks(IPlayerMainActions instance)
@@ -368,5 +397,6 @@ public partial class @PlayerActions: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }

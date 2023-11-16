@@ -11,10 +11,13 @@ public class ThirdPersonMovement : MonoBehaviour
     public GameObject canvasObject;
 
     public float speed = 6f;
+    public float jumpSpeed = 1f;
     public float gravityValue = -9.81f;
 
     public float turnSmoothTime = 0.1f;
     float turnSmoothVelocity;
+
+    private bool groundedPlayer;
 
     private Vector3 _playerVelocity;
 
@@ -34,12 +37,16 @@ public class ThirdPersonMovement : MonoBehaviour
     void WeMove()
     {
         //Debug.Log("We move the player");
-        _playerVelocity.y = 0f;
+        groundedPlayer = controller.isGrounded;
+        if (groundedPlayer && !controls.PlayerMain.Jump.IsPressed()) _playerVelocity.y = 0f;
+        else if (groundedPlayer && controls.PlayerMain.Jump.IsPressed()) _playerVelocity.y = 3f;
+        controller.Move(jumpSpeed * Time.deltaTime * _playerVelocity.normalized);
+
         Vector2 movementInput = controls.PlayerMain.Move.ReadValue<Vector2>();
         float horizontal = movementInput.x;
         float vertical = movementInput.y;
         Vector3 direction = new Vector3(horizontal, 0, vertical).normalized;
-        
+
         if (direction.magnitude >= 0.1f)
         {
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
@@ -49,9 +56,9 @@ public class ThirdPersonMovement : MonoBehaviour
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
             controller.Move(speed * Time.deltaTime * moveDir.normalized);
         }
+
         _playerVelocity.y += gravityValue * Time.deltaTime;
         controller.Move(speed * Time.deltaTime * _playerVelocity.normalized);
-        
     }
 
     void WeLook()
@@ -69,6 +76,12 @@ public class ThirdPersonMovement : MonoBehaviour
         controls.Disable();
     }
 
+    private void Gravity()
+    {
+        _playerVelocity.y += gravityValue * Time.deltaTime;
+        controller.Move(jumpSpeed * Time.deltaTime * _playerVelocity.normalized);
+    }
+
     // Update is called once per frame
     private void Update()
     {
@@ -80,12 +93,18 @@ public class ThirdPersonMovement : MonoBehaviour
         //float horizontal = Input.GetAxisRaw("Horizontal");
         //float vertical = Input.GetAxisRaw("Vertical");
         WeMove();
+        Gravity();
         if (controls.PlayerMain.Pause.triggered)
         {
-            this.gameObject.SetActive(false);
-            canvasObject.SetActive(true);
+            PauseGame();
             //Debug.Log("Is triggered? " + controls.PlayerMain.Pause.triggered);
             //Debug.Log("To string: " + controls.PlayerMain.Pause.controls.ToString());
         }
+    }
+
+    private void PauseGame()
+    {
+        this.gameObject.SetActive(false);
+        canvasObject.SetActive(true);
     }
 }

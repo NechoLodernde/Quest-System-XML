@@ -1,23 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PlayerDatabase>
   <PlayerEntry>
-    <playerName>Nechomer</playerName>
-    <playerRole>Healer</playerRole>
+    <playerName>Pocchi</playerName>
+    <playerRole>Warrior</playerRole>
     <playerGender>Male</playerGender>
     <playerLevel>1</playerLevel>
     <playerExp>0</playerExp>
   </PlayerEntry>
   <PlayerEntry>
-    <playerName>Nechomer</playerName>
+    <playerName>Diego</playerName>
+    <playerRole>Wizard</playerRole>
+    <playerGender>Male</playerGender>
+    <playerLevel>1</playerLevel>
+    <playerExp>0</playerExp>
+  </PlayerEntry>
+  <PlayerEntry>
+    <playerName>Caleb</playerName>
+    <playerRole>Wizard</playerRole>
+    <playerGender>Female</playerGender>
+    <playerLevel>1</playerLevel>
+    <playerExp>0</playerExp>
+  </PlayerEntry>
+  <PlayerEntry>
+    <playerName>Jackson</playerName>
     <playerRole>Hero</playerRole>
     <playerGender>Male</playerGender>
     <playerLevel>1</playerLevel>
     <playerExp>0</playerExp>
   </PlayerEntry>
   <PlayerEntry>
-    <playerName>Nechometry</playerName>
-    <playerRole>Wizard</playerRole>
-    <playerGender>Male</playerGender>
+    <playerName>Yevi</playerName>
+    <playerRole>Healer</playerRole>
+    <playerGender>Female</playerGender>
     <playerLevel>1</playerLevel>
     <playerExp>0</playerExp>
   </PlayerEntry>
