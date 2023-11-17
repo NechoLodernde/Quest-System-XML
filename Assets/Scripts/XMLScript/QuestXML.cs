@@ -11,18 +11,53 @@ public class QuestXML : MonoBehaviour
 
     public QuestDatabase questDB;
 
-    [SerializeField] private string objectID, filepath, prevPlayerName;
+    [SerializeField] private string objectID, filepath, prevQuestID;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        
+        objectID = name + transform.position.ToString();
+        filepath = Application.dataPath + @"/StreamingAssets/XML/quest_data.xml";
+        QuestXMLInstance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void InitializeFile()
     {
+        XmlWriterSettings settings = new();
+        settings.Encoding = System.Text.Encoding.GetEncoding("UTF-8");
+        settings.Indent = true;
+        settings.IndentChars = ("     ");
+        settings.OmitXmlDeclaration = true;
+
+        XmlWriter writer = XmlWriter.Create(filepath, settings);
+        writer.WriteStartDocument();
+        writer.WriteStartElement("QuestDatabase");
+        writer.WriteEndElement();
+        writer.WriteEndDocument();
+        writer.Flush();
+    }
+
+    public void ResetData()
+    {
+        XmlDocument xmlDoc = new();
         
+        if (CheckFileLocation())
+        {
+            xmlDoc.Load(filepath);
+            XmlElement elmRoot = xmlDoc.DocumentElement;
+            elmRoot.RemoveAll();
+            xmlDoc.Save(filepath);
+        }
+    }
+
+    public void QuestIDGenerator()
+    {
+
+    }
+
+    public void ClearList()
+    {
+        questDB.list.Clear();
     }
 
     private bool CheckFileLocation()
@@ -31,14 +66,14 @@ public class QuestXML : MonoBehaviour
         else return false;
     }
 
-    public void SetPrevPlayerName(string setName)
+    public void SetPrevQuestID(string setID)
     {
-        prevPlayerName = setName;
+        prevQuestID = setID;
     }
 
-    public void ResetPrevPlayerName()
+    public void ResetPrevQuestID()
     {
-        prevPlayerName = "";
+        prevQuestID = "";
     }
 }
 
@@ -50,4 +85,15 @@ public class QuestDatabase
 public class QuestEntry 
 {
     public string questID;
+    public QuestType questType;
+    public string questTitle;
+    public string questDescription;
+    public int experienceReward;
+}
+
+public enum QuestType
+{
+    Kill,
+    Gathering,
+    Interacting
 }
